@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Api\BukuController as ApiBukuController;
 use App\Http\Controllers\BukuController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LaporanController;
@@ -39,6 +40,21 @@ Route::middleware('auth')->group(function () {
         ->middleware('permission:lihat daftar buku')
         ->name('buku.show');
 
+    // =====================================================================
+    // [MODUL 6 - SOAL 1] CELAH KEAMANAN YANG SENGAJA DIBUAT UNTUK PRAKTIKUM
+    // (A1 ada di view buku/_daftar-blade.blade.php; A2, A3, A4 ada di sini)
+    // Semuanya ditambal pada Soal 2 dan Soal 4.
+    // =====================================================================
+
+    // A2 - SQL Injection: query string `judul` digabung langsung ke SQL
+    Route::get('/buku-cari', [BukuController::class, 'cari'])
+        ->name('buku.cari');
+
+    // A3 - CSRF: operasi hapus (mengubah data) dilakukan lewat method GET
+    Route::get('/buku/{buku}/hapus', [ApiBukuController::class, 'destroy'])
+        ->middleware('permission:kelola data buku')
+        ->name('buku.hapus');
+
     // ---- Profil milik sendiri (selalu memakai $request->user(), bukan id dari URL)
     Route::get('/profile', [ProfileController::class, 'edit'])
         ->middleware('permission:lihat profil sendiri')
@@ -56,6 +72,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/peminjaman-saya', [PeminjamanController::class, 'status'])
         ->middleware('permission:melihat status peminjaman sendiri')
         ->name('peminjaman.saya');
+
+    // [MODUL 6 - SOAL 1] A4 - IDOR: detail peminjaman diambil dari id tanpa cek pemilik
+    Route::get('/peminjaman/{id}', [PeminjamanController::class, 'show'])
+        ->whereNumber('id')
+        ->name('peminjaman.show');
 
     Route::get('/riwayat/{user?}', [PeminjamanController::class, 'riwayat'])
         ->middleware('permission:melihat riwayat peminjaman sendiri')

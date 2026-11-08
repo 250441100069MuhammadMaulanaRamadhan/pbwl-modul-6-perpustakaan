@@ -87,6 +87,18 @@ class PeminjamanController extends Controller
         ]);
     }
 
+    /**
+     * [MODUL 6 - SOAL 1] CELAH A4 - IDOR (Insecure Direct Object Reference).
+     * Data diambil hanya berdasarkan {id} dari URL, TANPA memeriksa siapa pemiliknya.
+     * Pengguna mana pun yang sudah login bisa membuka peminjaman milik orang lain.
+     */
+    public function show($id)
+    {
+        $peminjaman = Peminjaman::with(['anggota', 'buku.kategori'])->findOrFail($id);
+
+        return view('peminjaman.show', ['peminjaman' => $peminjaman]);
+    }
+
     private function milik(User $user)
     {
         return Peminjaman::with('buku.kategori')

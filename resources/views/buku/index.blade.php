@@ -79,6 +79,9 @@
         </div>
     </section>
 
+    {{-- [MODUL 6] Daftar buku yang dirender di server (Blade) --}}
+    @include('buku._daftar-blade')
+
 @endsection
 
 @push('scripts')
