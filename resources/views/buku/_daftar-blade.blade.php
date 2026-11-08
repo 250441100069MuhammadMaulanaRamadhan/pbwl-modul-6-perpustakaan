@@ -17,12 +17,22 @@
                     <tr>
                         <td>{{ $loop->iteration }}</td>
 
-                        {{-- [SOAL 1] CELAH A1 - XSS: {!! !!} TIDAK melakukan escaping --}}
-                        <td>{!! $buku->judul !!}</td>
+                        {{-- [SOAL 2a] A1 ditambal: {{ }} melakukan escaping (htmlspecialchars) --}}
+                        <td>{{ $buku->judul }}</td>
 
                         <td>{{ $buku->penulis }}</td>
                         <td class="aksi">
                             <a href="{{ route('buku.show', $buku->id) }}" class="btn btn-abu">Detail</a>
+
+                            {{-- [SOAL 2c] Hapus memakai form POST + @csrf + @method('DELETE') --}}
+                            @can('kelola data buku')
+                                <form method="POST" action="{{ route('buku.destroy', $buku) }}" class="inline-form"
+                                      onsubmit="return confirm('Yakin ingin menghapus buku ini?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-merah">Hapus</button>
+                                </form>
+                            @endcan
                         </td>
                     </tr>
                 @empty

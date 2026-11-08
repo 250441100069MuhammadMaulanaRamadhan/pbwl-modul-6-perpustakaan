@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Api\BukuController as ApiBukuController;
 use App\Http\Controllers\BukuController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LaporanController;
@@ -46,14 +45,15 @@ Route::middleware('auth')->group(function () {
     // Semuanya ditambal pada Soal 2 dan Soal 4.
     // =====================================================================
 
-    // A2 - SQL Injection: query string `judul` digabung langsung ke SQL
+    // A2 - ditambal pada BukuController@cari (query dengan binding) di Soal 2b
     Route::get('/buku-cari', [BukuController::class, 'cari'])
         ->name('buku.cari');
 
-    // A3 - CSRF: operasi hapus (mengubah data) dilakukan lewat method GET
-    Route::get('/buku/{buku}/hapus', [ApiBukuController::class, 'destroy'])
+    // [MODUL 6 - SOAL 2c] A3 ditambal: route GET /buku/{buku}/hapus DIHAPUS,
+    // penghapusan memakai method DELETE (dilindungi token CSRF oleh grup middleware "web")
+    Route::delete('/buku/{buku}', [BukuController::class, 'destroy'])
         ->middleware('permission:kelola data buku')
-        ->name('buku.hapus');
+        ->name('buku.destroy');
 
     // ---- Profil milik sendiri (selalu memakai $request->user(), bukan id dari URL)
     Route::get('/profile', [ProfileController::class, 'edit'])

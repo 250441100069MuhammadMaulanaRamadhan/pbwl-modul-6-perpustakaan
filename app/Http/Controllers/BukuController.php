@@ -44,15 +44,31 @@ class BukuController extends Controller
     }
 
     /**
-     * [MODUL 6 - SOAL 1] CELAH A2 - SQL Injection.
-     * Nilai `judul` dari query string digabung LANGSUNG ke string SQL.
+     * [MODUL 6 - SOAL 2b] A2 ditambal: query memakai binding (tanda ?).
+     * Nilai `judul` dikirim terpisah dari teks SQL sehingga selalu diperlakukan sebagai DATA.
      */
     public function cari(Request $request)
     {
         $judul = $request->query('judul');
 
-        $hasil = DB::select("SELECT * FROM bukus WHERE judul = '$judul'");
+        $hasil = DB::select('SELECT * FROM bukus WHERE judul = ?', [$judul]);
 
         return response()->json($hasil);
+    }
+
+    /**
+     * [MODUL 6 - SOAL 2c] A3 ditambal: hapus buku lewat method DELETE.
+     * Dipanggil dari form ber-@csrf + @method('DELETE') dan dilindungi middleware CSRF.
+     */
+    public function destroy(Buku $buku)
+    {
+        try {
+            $buku->delete();
+        } catch (QueryException $e) {
+            return redirect()->route('buku.index')
+                ->with('error', 'Buku tidak dapat dihapus karena masih memiliki data peminjaman.');
+        }
+
+        return redirect()->route('buku.index')->with('status', 'Buku berhasil dihapus.');
     }
 }
