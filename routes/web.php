@@ -35,6 +35,12 @@ Route::middleware('auth')->group(function () {
         ->middleware('permission:lihat daftar buku')
         ->name('buku.index');
 
+    // [MODUL 6 - SOAL 3] Form tambah buku, dijaga Gate. HARUS di atas /buku/{id},
+    // jika tidak kata "create" akan dianggap sebagai {id}.
+    Route::get('/buku/create', [BukuController::class, 'create'])
+        ->middleware('can:kelola-buku')
+        ->name('buku.create');
+
     Route::get('/buku/{id}', [BukuController::class, 'show'])
         ->middleware('permission:lihat daftar buku')
         ->name('buku.show');
@@ -52,7 +58,7 @@ Route::middleware('auth')->group(function () {
     // [MODUL 6 - SOAL 2c] A3 ditambal: route GET /buku/{buku}/hapus DIHAPUS,
     // penghapusan memakai method DELETE (dilindungi token CSRF oleh grup middleware "web")
     Route::delete('/buku/{buku}', [BukuController::class, 'destroy'])
-        ->middleware('permission:kelola data buku')
+        ->middleware('can:kelola-buku')
         ->name('buku.destroy');
 
     // ---- Profil milik sendiri (selalu memakai $request->user(), bukan id dari URL)

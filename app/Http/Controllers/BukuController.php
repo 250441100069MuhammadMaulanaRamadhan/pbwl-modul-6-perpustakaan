@@ -43,6 +43,14 @@ class BukuController extends Controller
         ]);
     }
 
+    /** [MODUL 6 - SOAL 3] Halaman form tambah buku (route dijaga middleware can:kelola-buku) */
+    public function create()
+    {
+        return view('buku.create', [
+            'kategoris' => Kategori::orderBy('nama')->get(['id', 'nama']),
+        ]);
+    }
+
     /**
      * [MODUL 6 - SOAL 2b] A2 ditambal: query memakai binding (tanda ?).
      * Nilai `judul` dikirim terpisah dari teks SQL sehingga selalu diperlakukan sebagai DATA.

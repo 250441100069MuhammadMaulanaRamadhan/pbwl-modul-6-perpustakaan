@@ -24,8 +24,8 @@
                         <td class="aksi">
                             <a href="{{ route('buku.show', $buku->id) }}" class="btn btn-abu">Detail</a>
 
-                            {{-- [SOAL 2c] Hapus memakai form POST + @csrf + @method('DELETE') --}}
-                            @can('kelola data buku')
+                            {{-- [SOAL 2c + 3] Hapus: form POST + @csrf + @method('DELETE'), tombol tampil via @can (Gate) --}}
+                            @can('kelola-buku')
                                 <form method="POST" action="{{ route('buku.destroy', $buku) }}" class="inline-form"
                                       onsubmit="return confirm('Yakin ingin menghapus buku ini?')">
                                     @csrf

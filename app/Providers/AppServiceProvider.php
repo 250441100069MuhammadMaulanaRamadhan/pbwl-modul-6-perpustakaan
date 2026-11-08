@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +21,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // [MODUL 6 - SOAL 3] Aturan pengelolaan buku dipusatkan di sini.
+        // Hanya role admin dan petugas yang boleh menambah, mengubah, dan menghapus buku.
+        Gate::define('kelola-buku', function (User $user): bool {
+            return $user->hasAnyRole(['admin', 'petugas']);
+        });
     }
 }

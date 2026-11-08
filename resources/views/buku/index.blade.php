@@ -6,11 +6,16 @@
 
     <h2>📚 Daftar Buku</h2>
 
+    {{-- [MODUL 6 - SOAL 3] Tombol Tambah hanya tampil jika Gate "kelola-buku" lolos --}}
+    @can('kelola-buku')
+        <p><a href="{{ route('buku.create') }}" class="btn btn-utama">+ Tambah Buku</a></p>
+    @endcan
+
     {{-- Area pesan (sukses / gagal) --}}
     <div id="pesan" class="pesan" role="alert" hidden></div>
 
     {{-- ===== Soal 2 & 3: Formulir tambah / ubah (hanya Admin & Petugas) ===== --}}
-    @can('kelola data buku')
+    @can('kelola-buku')
     <section class="panel">
         <h3 id="judul-form">Tambah Buku</h3>
 
@@ -90,7 +95,8 @@
 
     // Modul 5: izin pengguna (dari Spatie) + token CSRF untuk session login
     const IZIN = {
-        kelola: @json(auth()->user()->can('kelola data buku')),
+        // [MODUL 6 - SOAL 3] tombol Ubah & Hapus pada tabel Fetch API mengikuti Gate "kelola-buku"
+        kelola: @can('kelola-buku') true @else false @endcan,
         pinjam: @json(auth()->user()->can('mengajukan peminjaman buku')),
     };
     const CSRF = document.querySelector('meta[name="csrf-token"]').content;

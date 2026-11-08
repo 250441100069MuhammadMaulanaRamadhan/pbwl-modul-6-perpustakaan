@@ -24,9 +24,10 @@ Route::middleware(['web', 'auth'])->group(function () {
         ->middleware('permission:lihat daftar buku')
         ->names('api.buku');
 
-    // Tambah / ubah / hapus: hanya yang boleh mengelola data buku
+    // [MODUL 6 - SOAL 3] Tambah / ubah / hapus: aturannya dipusatkan pada Gate "kelola-buku"
+    // (sebelumnya: permission:kelola data buku)
     Route::apiResource('buku', BukuController::class)
         ->only(['store', 'update', 'destroy'])
-        ->middleware('permission:kelola data buku')
+        ->middleware('can:kelola-buku')
         ->names('api.buku');
 });

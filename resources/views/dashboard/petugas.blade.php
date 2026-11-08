@@ -38,7 +38,7 @@
     <section class="panel">
         <h3>Menu Operasional</h3>
         <div class="link-aksi">
-            @can('kelola data buku')
+            @can('kelola-buku')
                 <a href="{{ route('buku.index') }}" class="btn btn-utama">Kelola Buku</a>
             @endcan
             @can('kelola peminjaman')
