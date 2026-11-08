@@ -1,0 +1,276 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f7fb;
+    color: #333;
+}
+
+header {
+    background: #2563eb;
+    color: white;
+    padding: 20px 60px;
+}
+
+header h1 {
+    margin-bottom: 15px;
+}
+
+nav {
+    display: flex;
+    gap: 20px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+main {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+h2 {
+    margin-bottom: 20px;
+    color: #1e3a8a;
+}
+
+.buku-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.buku-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.buku-card h3 {
+    color: #2563eb;
+    margin-bottom: 15px;
+}
+
+.buku-card p {
+    margin-bottom: 8px;
+}
+
+.buku-card a {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 15px;
+    background: #2563eb;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+}
+
+.buku-card a:hover {
+    background: #1d4ed8;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+    color: #666;
+}
+/* ===== Modul 4: halaman /buku (Fetch API) ===== */
+
+.panel {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    margin-bottom: 24px;
+}
+
+.panel h3 {
+    color: #1e3a8a;
+    margin-bottom: 15px;
+}
+
+.field {
+    margin-bottom: 14px;
+}
+
+.field label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+.field input,
+.field select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.error {
+    display: block;
+    color: #b91c1c;
+    margin-top: 4px;
+    min-height: 1em;
+}
+
+.aksi-form {
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn-utama  { background: #2563eb; }
+.btn-kuning { background: #d97706; }
+.btn-merah  { background: #dc2626; }
+.btn-abu    { background: #64748b; }
+
+.pesan {
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.pesan-sukses { background: #dcfce7; color: #166534; border: 1px solid #86efac; }
+.pesan-error  { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+
+.tabel-wrap { overflow-x: auto; }
+
+.tabel {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tabel th,
+.tabel td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #e2e8f0;
+    text-align: left;
+}
+
+.tabel th {
+    background: #eff6ff;
+    color: #1e3a8a;
+}
+
+.tabel td.aksi {
+    white-space: nowrap;
+}
+
+.tabel td.aksi .btn {
+    margin-right: 6px;
+}
+
+.tengah { text-align: center !important; }
+
+.paginasi {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 16px;
+}
+
+/* ===== Modul 5: autentikasi & RBAC ===== */
+
+nav { flex-wrap: wrap; align-items: center; }
+
+.nav-kanan {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.nav-user { font-size: 14px; opacity: 0.9; }
+
+.nav-kanan form { display: inline; }
+
+.nav-logout {
+    background: none;
+    border: none;
+    color: white;
+    font-weight: bold;
+    font-size: inherit;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.nav-logout:hover { text-decoration: underline; }
+
+.inline-form { display: inline; }
+
+.kartu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.kartu {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.kartu .angka { font-size: 32px; font-weight: bold; color: #2563eb; }
+
+.badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+.badge-menunggu     { background: #fef3c7; color: #92400e; }
+.badge-disetujui    { background: #dbeafe; color: #1e40af; }
+.badge-ditolak      { background: #fee2e2; color: #991b1b; }
+.badge-dikembalikan { background: #dcfce7; color: #166534; }
+.badge-role         { background: #e0e7ff; color: #3730a3; }
+
+.filter-status { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+
+.field select,
+.tabel select {
+    padding: 8px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.link-aksi { display: flex; gap: 10px; flex-wrap: wrap; }
