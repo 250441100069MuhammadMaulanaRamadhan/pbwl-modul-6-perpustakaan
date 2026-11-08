@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Peminjaman;
 use App\Models\User;
+use App\Policies\PeminjamanPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -26,5 +28,8 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('kelola-buku', function (User $user): bool {
             return $user->hasAnyRole(['admin', 'petugas']);
         });
+
+        // [MODUL 6 - SOAL 4] Daftarkan Policy untuk model Peminjaman
+        Gate::policy(Peminjaman::class, PeminjamanPolicy::class);
     }
 }

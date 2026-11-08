@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Peminjaman;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * Fitur peminjaman dari sisi pengguna: mengajukan, melihat status, melihat riwayat.
@@ -73,12 +74,9 @@ class PeminjamanController extends Controller
         $login  = $request->user();
         $target = $user ?? $login;
 
-        // Pemeriksaan berdasarkan IDENTITAS pengguna, bukan hanya permission
-        abort_unless(
-            $target->is($login) || $login->can('kelola peminjaman'),
-            403,
-            'Anda tidak berhak melihat riwayat peminjaman pengguna lain.'
-        );
+        // [MODUL 6 - SOAL 4] Pemeriksaan kepemilikan manual (abort_unless) dari Modul 5
+        // diganti dengan Policy: PeminjamanPolicy@lihatRiwayat
+        Gate::authorize('lihatRiwayat', [Peminjaman::class, $target]);
 
         return view('peminjaman.saya', [
             'judul'       => $target->is($login) ? 'Riwayat Peminjaman Saya' : 'Riwayat Peminjaman: ' . $target->name,
@@ -88,13 +86,16 @@ class PeminjamanController extends Controller
     }
 
     /**
-     * [MODUL 6 - SOAL 1] CELAH A4 - IDOR (Insecure Direct Object Reference).
-     * Data diambil hanya berdasarkan {id} dari URL, TANPA memeriksa siapa pemiliknya.
-     * Pengguna mana pun yang sudah login bisa membuka peminjaman milik orang lain.
+     * [MODUL 6 - SOAL 4] A4 ditambal dengan Policy.
+     * Gate::authorize('view', $peminjaman) memanggil PeminjamanPolicy@view:
+     *  - admin & petugas  : boleh melihat semua peminjaman
+     *  - siswa            : hanya miliknya sendiri, selain itu 403 Forbidden
      */
     public function show($id)
     {
         $peminjaman = Peminjaman::with(['anggota', 'buku.kategori'])->findOrFail($id);
+
+        Gate::authorize('view', $peminjaman);
 
         return view('peminjaman.show', ['peminjaman' => $peminjaman]);
     }
